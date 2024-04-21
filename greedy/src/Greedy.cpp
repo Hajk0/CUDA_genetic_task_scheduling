@@ -1,7 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cstdlib>
 #include "..\include\Greedy.h"
+#include "..\..\genetic\include\Individual.hpp"
+#include "Greedy.h"
 
 using namespace std;
 
@@ -32,7 +35,7 @@ Greedy::Greedy(const std::string& filename) {
     file.close();
 }
 
-int* Greedy::generateSolution() {
+Individual* Greedy::generateSolution() {
     int* solution = new int[this->numTasks];
     int* procOccupation = new int[this->numProcessors];
     for (int i = 0; i < this->numTasks; i++) {
@@ -56,7 +59,7 @@ int* Greedy::generateSolution() {
         procOccupation[minProc] += this->tasks[i];
     }
 
-    for (int i = 0; i < this->numTasks; i++) {
+    /*for (int i = 0; i < this->numTasks; i++) {
         cout << solution[i] << " ";
     }
 
@@ -64,9 +67,18 @@ int* Greedy::generateSolution() {
 
     for (int i = 0; i < this->numProcessors; i++) {
         cout << procOccupation[i] << " ";
-    }
+    }*/
 
-    return solution;
+    return (new Individual(this->numTasks, this->numProcessors, this->tasks, solution));
+}
+
+void Greedy::shuffleTasks() {
+    for (int i = 0; i < this->numTasks; i++) {
+        int j = rand() % this->numTasks;
+        int tmp = this->tasks[i];
+        this->tasks[i] = this->tasks[j];
+        this->tasks[j] = tmp;
+    }
 }
 
 Greedy::~Greedy() {

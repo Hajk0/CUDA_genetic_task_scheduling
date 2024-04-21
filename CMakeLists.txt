@@ -4,11 +4,13 @@ project(PC-MAX LANGUAGES CXX)
 # Add source files
 add_executable(
     main main.cpp
-    greedy greedy/src/greedy.cpp
+    greedy/src/Greedy.cpp
+    genetic/src/Individual.cpp
 )
 
 # Specify include directories
 target_include_directories(
     main PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/greedy/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/genetic/include
 )
