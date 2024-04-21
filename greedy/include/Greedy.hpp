@@ -1,5 +1,5 @@
-#ifndef GREEDY_H
-#define GREEDY_H
+#ifndef GREEDY_HPP
+#define GREEDY_HPP
 
 #include <iostream>
 #include <fstream>
@@ -18,4 +18,4 @@ public:
     ~Greedy();
 };;
 
-#endif // GREEDY_H
+#endif // GREEDY_HPP

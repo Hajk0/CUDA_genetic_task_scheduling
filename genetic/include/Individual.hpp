@@ -13,6 +13,7 @@ private:
 
 public:
     Individual(int numTasks, int numProcessors, int *tasks, int *solution);
+    void printIndividual();
 };
 
 #endif // INDIVIDUAL_HPP

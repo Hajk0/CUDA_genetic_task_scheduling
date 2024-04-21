@@ -6,6 +6,7 @@ add_executable(
     main main.cpp
     greedy/src/Greedy.cpp
     genetic/src/Individual.cpp
+    genetic/src/Population.cpp
 )
 
 # Specify include directories

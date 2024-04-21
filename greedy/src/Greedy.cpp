@@ -1,10 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cstdlib>
-#include "..\include\Greedy.h"
+#include "..\include\Greedy.hpp"
 #include "..\..\genetic\include\Individual.hpp"
-#include "Greedy.h"
 
 using namespace std;
 
@@ -59,16 +57,6 @@ Individual* Greedy::generateSolution() {
         procOccupation[minProc] += this->tasks[i];
     }
 
-    /*for (int i = 0; i < this->numTasks; i++) {
-        cout << solution[i] << " ";
-    }
-
-    cout << endl;
-
-    for (int i = 0; i < this->numProcessors; i++) {
-        cout << procOccupation[i] << " ";
-    }*/
-
     return (new Individual(this->numTasks, this->numProcessors, this->tasks, solution));
 }
 
@@ -82,7 +70,5 @@ void Greedy::shuffleTasks() {
 }
 
 Greedy::~Greedy() {
-    std::cout << "Greedy destructor" << std::endl;
-
     delete[] this->tasks;
 }
