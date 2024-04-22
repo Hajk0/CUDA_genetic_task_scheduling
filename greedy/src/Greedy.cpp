@@ -63,11 +63,13 @@ Individual* Greedy::generateSolution() {
 void Greedy::shuffleTasks() {
     for (int i = 0; i < this->numTasks; i++) {
         int j = rand() % this->numTasks;
+        int iTaskId = this->tasks[i][0];
+        int jTaskId = this->tasks[j][0];
         int tmp = this->tasks[i][1];
         this->tasks[i][1] = this->tasks[j][1];
         this->tasks[j][1] = tmp;
-        this->tasks[i][0] = j;
-        this->tasks[j][0] = i;
+        this->tasks[i][0] = jTaskId;
+        this->tasks[j][0] = iTaskId;
     }
 }
 

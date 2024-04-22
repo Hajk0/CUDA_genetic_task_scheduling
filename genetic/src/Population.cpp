@@ -13,6 +13,7 @@ Population::Population(int populationSize, const std::string &filename) {
     for (int i = 0; i < this->populationSize; i++) {
         greedy->shuffleTasks();
         this->individuals[i] = greedy->generateSolution();
+        // this->individuals[i]->printIndividual(); // Debug
     }
 }
 

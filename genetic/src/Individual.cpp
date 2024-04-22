@@ -27,7 +27,7 @@ void Individual::printIndividual() {
     }
 
     for (int i = 0; i < this->numTasks; i++) {
-        // cout << "Task " << i << " -> Processor " << this->solution[i] << " -> Duration " << this->tasks[i] << endl;
+        std::cout << "Task " << i << " -> Processor " << this->solution[i] << "Task ID " << this->tasks[i][0] << " -> Duration " << this->tasks[i][1] << "\n";
         procOccupation[this->solution[i]] += this->tasks[i][1];
     }
 
