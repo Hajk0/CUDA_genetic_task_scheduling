@@ -10,7 +10,7 @@ class Greedy {
 private:
     int numProcessors;
     int numTasks;
-    int *tasks;
+    int **tasks;
 public:
     Greedy(const std::string &filename);
     Individual* generateSolution();

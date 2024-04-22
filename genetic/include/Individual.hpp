@@ -9,11 +9,11 @@ private:
     int numTasks;
     int numProcessors;
     int fitness;
-    int *tasks;
+    int **tasks;
     int *solution;
 
 public:
-    Individual(int numTasks, int numProcessors, int *tasks, int *solution);
+    Individual(int numTasks, int numProcessors, int **tasks, int *solution);
     void printIndividual();
     int evaluate();
     int getFitness();

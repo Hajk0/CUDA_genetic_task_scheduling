@@ -18,14 +18,16 @@ Greedy::Greedy(const std::string& filename) {
         int pos = line.find(" ");
         this->numTasks = stoi(line.substr(0, pos));
         this->numProcessors = stoi(line.substr(pos + 1));
-        this->tasks = new int [this->numTasks];
+        this->tasks = new int* [this->numTasks];
     }
     int i = 0;
     while (std::getline(file, line) && i < this->numTasks) {
 
-        this->tasks[i] = stoi(line);
+        this->tasks[i] = new int[2];
+        this->tasks[i][0] = i;
+        this->tasks[i][1] = stoi(line);
 
-        std::cout << this->tasks[i] << "\n";
+        std::cout << this->tasks[i][0] << " " << this->tasks[i][1] << "\n";
         i++;
     }
 
@@ -52,7 +54,7 @@ Individual* Greedy::generateSolution() {
             }
         }
         solution[i] = minProc;
-        procOccupation[minProc] += this->tasks[i];
+        procOccupation[minProc] += this->tasks[i][1];
     }
     
     return (new Individual(this->numTasks, this->numProcessors, this->tasks, solution));
@@ -61,9 +63,11 @@ Individual* Greedy::generateSolution() {
 void Greedy::shuffleTasks() {
     for (int i = 0; i < this->numTasks; i++) {
         int j = rand() % this->numTasks;
-        int tmp = this->tasks[i];
-        this->tasks[i] = this->tasks[j];
-        this->tasks[j] = tmp;
+        int tmp = this->tasks[i][1];
+        this->tasks[i][1] = this->tasks[j][1];
+        this->tasks[j][1] = tmp;
+        this->tasks[i][0] = j;
+        this->tasks[j][0] = i;
     }
 }
 

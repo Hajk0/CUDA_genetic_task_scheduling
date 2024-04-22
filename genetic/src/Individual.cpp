@@ -4,12 +4,14 @@
 #include "Individual.hpp"
 
 
-Individual::Individual(int numTasks, int numProcessors, int *tasks, int *solution) {
+Individual::Individual(int numTasks, int numProcessors, int **tasks, int *solution) {
     this->numTasks = numTasks;
     this->numProcessors = numProcessors;
-    this->tasks = new int[numTasks];
+    this->tasks = new int*[numTasks];
     for (int i = 0; i < numTasks; i++) {
-        this->tasks[i] = tasks[i];
+        this->tasks[i] = new int[2];
+        this->tasks[i][0] = tasks[i][0];
+        this->tasks[i][1] = tasks[i][1];
     }
     this->solution = new int[numTasks];
     for (int i = 0; i < numTasks; i++) {
@@ -26,7 +28,7 @@ void Individual::printIndividual() {
 
     for (int i = 0; i < this->numTasks; i++) {
         // cout << "Task " << i << " -> Processor " << this->solution[i] << " -> Duration " << this->tasks[i] << endl;
-        procOccupation[this->solution[i]] += this->tasks[i];
+        procOccupation[this->solution[i]] += this->tasks[i][1];
     }
 
     for (int i = 0; i < this->numProcessors; i++) {
@@ -43,7 +45,7 @@ int Individual::evaluate() { // used in the constructor to set the fitness
     }
 
     for (int i = 0; i < this->numTasks; i++) {
-        procOccupation[this->solution[i]] += this->tasks[i];
+        procOccupation[this->solution[i]] += this->tasks[i][1];
     }
 
     int maxOccupation = *std::max_element(procOccupation, procOccupation + this->numProcessors);
