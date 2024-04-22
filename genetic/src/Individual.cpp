@@ -27,7 +27,7 @@ void Individual::printIndividual() {
     }
 
     for (int i = 0; i < this->numTasks; i++) {
-        std::cout << "Task " << i << " -> Processor " << this->solution[i] << "Task ID " << this->tasks[i][0] << " -> Duration " << this->tasks[i][1] << "\n";
+        // std::cout << "Task " << i << " -> Processor " << this->solution[i] << "Task ID " << this->tasks[i][0] << " -> Duration " << this->tasks[i][1] << "\n";
         procOccupation[this->solution[i]] += this->tasks[i][1];
     }
 
@@ -56,4 +56,23 @@ int Individual::evaluate() { // used in the constructor to set the fitness
 
 int Individual::getFitness() { // used in the sort function in Population::selectIndividuals
     return this->fitness;
+}
+
+Individual* Individual::crossover(Individual* other) {
+    int* newSolution = new int[this->numTasks];
+    for (int i = 0; i < this->numTasks; i++) {
+        int idThis = this->tasks[i][0];
+        int idOther = other->tasks[i][0];
+        newSolution[i] = (rand() % 2) ? this->solution[idThis] : other->solution[idOther];
+    }
+
+    return (new Individual(this->numTasks, this->numProcessors, this->tasks, newSolution));
+}
+
+Individual::~Individual() {
+    delete[] this->solution;
+    for (int i = 0; i < this->numTasks; i++) {
+        delete[] this->tasks[i];
+    }
+    delete[] this->tasks;
 }

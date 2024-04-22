@@ -47,14 +47,16 @@ Individual* Greedy::generateSolution() {
     for (int i = 0; i < this->numTasks; i++) {
         int minOccupation = procOccupation[0];
         int minProc = 0;
+        int taskID = this->tasks[i][0]; // add by task ID to enable getting solution by task ID
+        std::cout << "Task " << taskID << " -> ";
         for (int j = 0; j < this->numProcessors; j++) {
             if (procOccupation[j] < minOccupation) {
                 minOccupation = procOccupation[j];
                 minProc = j;
             }
         }
-        solution[i] = minProc;
-        procOccupation[minProc] += this->tasks[i][1];
+        solution[taskID] = minProc;
+        procOccupation[minProc] += this->tasks[taskID][1];
     }
     
     return (new Individual(this->numTasks, this->numProcessors, this->tasks, solution));

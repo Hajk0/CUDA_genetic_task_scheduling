@@ -17,6 +17,8 @@ public:
     void printIndividual();
     int evaluate();
     int getFitness();
+    Individual* crossover(Individual* other);
+    ~Individual();
 };
 
 #endif // INDIVIDUAL_HPP

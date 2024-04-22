@@ -8,12 +8,14 @@
 class Population {
 private:
     int populationSize;
+    int freeSpace;
     Individual **individuals;
 
 public:
     Population(int populationSize, const std::string &filename);
     void printPopulation();
     void selectIndividuals(float selectPercent); // Steady state selection
+    Individual* randomCrossover();
     ~Population();
 };
 

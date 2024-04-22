@@ -14,6 +14,8 @@ int main() {
     Population* population = new Population(10, filename);
     population->printPopulation();
     population->selectIndividuals(0.5);
+    Individual* newIndividual = population->randomCrossover();
+    newIndividual->printIndividual();
 
     return 0;
 }
