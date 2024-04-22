@@ -4,20 +4,22 @@
 #include "Individual.hpp"
 
 
-Individual::Individual(int numTasks, int numProcessors, int **tasks, int *solution) {
+Individual::Individual(int numTasks, int numProcessors, int **tasks) {
     this->numTasks = numTasks;
     this->numProcessors = numProcessors;
     this->tasks = new int*[numTasks];
     for (int i = 0; i < numTasks; i++) {
-        this->tasks[i] = new int[2];
+        this->tasks[i] = new int[3];
         this->tasks[i][0] = tasks[i][0];
         this->tasks[i][1] = tasks[i][1];
+        this->tasks[i][2] = tasks[i][2];
     }
-    this->solution = new int[numTasks];
+    /*this->solution = new int[numTasks];
     for (int i = 0; i < numTasks; i++) {
         this->solution[i] = solution[i];
-    }
+    }*/
     this->fitness = this->evaluate();
+    this->sortTasks();
 }
 
 void Individual::printIndividual() {
@@ -28,7 +30,7 @@ void Individual::printIndividual() {
 
     for (int i = 0; i < this->numTasks; i++) {
         // std::cout << "Task " << i << " -> Processor " << this->solution[i] << "Task ID " << this->tasks[i][0] << " -> Duration " << this->tasks[i][1] << "\n";
-        procOccupation[this->solution[i]] += this->tasks[i][1];
+        procOccupation[this->tasks[i][2]] += this->tasks[i][1];
     }
 
     for (int i = 0; i < this->numProcessors; i++) {
@@ -45,7 +47,7 @@ int Individual::evaluate() { // used in the constructor to set the fitness
     }
 
     for (int i = 0; i < this->numTasks; i++) {
-        procOccupation[this->solution[i]] += this->tasks[i][1];
+        procOccupation[this->tasks[i][2]] += this->tasks[i][1];
     }
 
     int maxOccupation = *std::max_element(procOccupation, procOccupation + this->numProcessors);
@@ -59,18 +61,27 @@ int Individual::getFitness() { // used in the sort function in Population::selec
 }
 
 Individual* Individual::crossover(Individual* other) {
-    int* newSolution = new int[this->numTasks];
+    int **newTasks = new int*[this->numTasks];
     for (int i = 0; i < this->numTasks; i++) {
+        newTasks[i] = new int [3];
         int idThis = this->tasks[i][0];
         int idOther = other->tasks[i][0];
-        newSolution[i] = (rand() % 2) ? this->solution[idThis] : other->solution[idOther];
+        newTasks[i][0] = this->tasks[i][0];
+        newTasks[i][1] = this->tasks[i][1];
+        newTasks[i][2] = (rand() % 2) ? this->tasks[i][2] : other->tasks[i][2];
     }
 
-    return (new Individual(this->numTasks, this->numProcessors, this->tasks, newSolution));
+    return (new Individual(this->numTasks, this->numProcessors, newTasks));
+}
+
+void Individual::sortTasks() {
+    std::sort(this->tasks, this->tasks + this->numTasks, [](int* a, int* b) {
+        return a[0] < b[0];
+    });
 }
 
 Individual::~Individual() {
-    delete[] this->solution;
+    // delete[] this->solution;
     for (int i = 0; i < this->numTasks; i++) {
         delete[] this->tasks[i];
     }

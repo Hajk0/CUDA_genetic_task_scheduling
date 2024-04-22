@@ -14,7 +14,9 @@ int main() {
     Population* population = new Population(10, filename);
     population->printPopulation();
     population->selectIndividuals(0.5);
+    std::cout << "New individual: " << "\n";
     Individual* newIndividual = population->randomCrossover();
+    std::cout << "Crossover done " << "\n";
     newIndividual->printIndividual();
 
     return 0;
