@@ -4,7 +4,6 @@
 #include "..\include\Greedy.hpp"
 #include "..\..\genetic\include\Individual.hpp"
 
-using namespace std;
 
 Greedy::Greedy(const std::string& filename) {
 
@@ -26,7 +25,7 @@ Greedy::Greedy(const std::string& filename) {
 
         this->tasks[i] = stoi(line);
 
-        cout << this->tasks[i] << endl;
+        std::cout << this->tasks[i] << "\n";
         i++;
     }
 

@@ -3,9 +3,8 @@
 #include "..\include\Individual.hpp"
 #include "..\..\greedy\include\Greedy.hpp"
 
-using namespace std;
 
-Population::Population(int populationSize, const string &filename) {
+Population::Population(int populationSize, const std::string &filename) {
     this->populationSize = populationSize;
     this->individuals = new Individual*[populationSize];
     Greedy* greedy = new Greedy(filename);
@@ -17,9 +16,9 @@ Population::Population(int populationSize, const string &filename) {
 }
 
 void Population::printPopulation() {
-    cout << "Population: " << endl;
+    std::cout << "Population: " << "\n";
     for (int i = 0; i < this->populationSize; i++) {
-        cout << "Individual " << i << ": " << endl;
+        std::cout << "Individual " << i << ": " << "\n";
         this->individuals[i]->printIndividual();
     }
 }

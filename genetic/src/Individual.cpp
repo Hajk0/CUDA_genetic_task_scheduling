@@ -4,8 +4,6 @@
 #include "Individual.hpp"
 
 
-using namespace std;
-
 Individual::Individual(int numTasks, int numProcessors, int *tasks, int *solution) {
     this->numTasks = numTasks;
     this->numProcessors = numProcessors;
@@ -31,7 +29,7 @@ void Individual::printIndividual() {
     }
 
     for (int i = 0; i < this->numProcessors; i++) {
-        cout << "Processor " << i << ": " << procOccupation[i] << endl;
+        std::cout << "Processor " << i << ": " << procOccupation[i] << "\n";
     }
 
     delete[] procOccupation;
