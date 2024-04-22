@@ -28,7 +28,7 @@ Greedy::Greedy(const std::string& filename) {
         this->tasks[i][1] = stoi(line);
         this->tasks[i][2] = -1;
 
-        std::cout << this->tasks[i][0] << " " << this->tasks[i][1] << "\n";
+        // std::cout << this->tasks[i][0] << " " << this->tasks[i][1] << "\n";
         i++;
     }
 

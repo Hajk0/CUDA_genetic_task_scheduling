@@ -18,6 +18,7 @@ public:
     int getFitness();
     Individual* crossover(Individual* other);
     void sortTasks();
+    void mutate(float mutationProbability);
     ~Individual();
 };
 

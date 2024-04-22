@@ -16,6 +16,8 @@ public:
     void printPopulation();
     void selectIndividuals(float selectPercent); // Steady state selection
     Individual* randomCrossover();
+    void populationCrossover();
+    void populationMutation(float mutationProbability);
     ~Population();
 };
 

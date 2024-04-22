@@ -1,5 +1,7 @@
 #include <iostream>
 #include <algorithm>
+#include <ctime>
+#include <cstdlib>
 #include "..\include\Individual.hpp"
 #include "Individual.hpp"
 
@@ -78,6 +80,17 @@ void Individual::sortTasks() {
     std::sort(this->tasks, this->tasks + this->numTasks, [](int* a, int* b) {
         return a[0] < b[0];
     });
+}
+
+void Individual::mutate(float mutationProbability) {
+    srand(time(NULL));
+    for (int i = 0; i < this->numTasks; i++) {
+        if ((rand() % 100) < mutationProbability * 100) {
+            this->tasks[i][2] = rand() % this->numProcessors;
+        }
+    }
+
+    this->fitness = this->evaluate(); // Update the fitness after mutation
 }
 
 Individual::~Individual() {

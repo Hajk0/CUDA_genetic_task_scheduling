@@ -36,11 +36,11 @@ void Population::selectIndividuals(float selectPercent) { // Selection by sortin
     this->freeSpace = this->populationSize - this->populationSize * selectPercent;
     this->populationSize = this->populationSize * selectPercent; // Select the best individuals (I don't realocate memory)
 
-    std::cout << "Selected individuals: " << "\n";
+    /*std::cout << "Selected individuals: " << "\n";
     for (int i = 0; i < this->populationSize; i++) {
         std::cout << "Individual " << i << ": " << "\n";
         this->individuals[i]->printIndividual();
-    }
+    }*/
 }
 
 Individual* Population::randomCrossover() { // Randomly select two individuals and generate a new individual
@@ -51,6 +51,24 @@ Individual* Population::randomCrossover() { // Randomly select two individuals a
     Individual* newIndividual = this->individuals[randomNumber1]->crossover(this->individuals[randomNumber2]);
     
     return newIndividual;
+}
+
+void Population::populationCrossover() {
+    while (this->freeSpace > 0) {
+        Individual* newIndividual = this->randomCrossover();
+        this->individuals[this->populationSize] = newIndividual;
+        this->freeSpace--;
+        this->populationSize++;
+    }
+}
+
+void Population::populationMutation(float mutationProbability) {
+    srand(time(NULL));
+    for (int i = 0; i < this->populationSize; i++) {
+        if ((rand() % 100) < mutationProbability * 100) {
+            this->individuals[i]->mutate(mutationProbability);
+        }
+    }
 }
 
 Population::~Population() {
