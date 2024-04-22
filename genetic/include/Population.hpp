@@ -13,6 +13,7 @@ private:
 public:
     Population(int populationSize, const std::string &filename);
     void printPopulation();
+    void selectIndividuals(float selectPercent); // Steady state selection
     ~Population();
 };
 

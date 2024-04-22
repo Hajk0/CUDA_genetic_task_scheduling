@@ -13,6 +13,7 @@ int main() {
     // solution->printIndividual();
     Population* population = new Population(10, filename);
     population->printPopulation();
+    population->selectIndividuals(0.5);
 
     return 0;
 }

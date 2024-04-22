@@ -51,11 +51,10 @@ Individual* Greedy::generateSolution() {
                 minProc = j;
             }
         }
-
         solution[i] = minProc;
         procOccupation[minProc] += this->tasks[i];
     }
-
+    
     return (new Individual(this->numTasks, this->numProcessors, this->tasks, solution));
 }
 
