@@ -10,14 +10,14 @@ private:
     int numProcessors;
     int fitness;
     int **tasks;
-    int *solution;
 
 public:
-    Individual(int numTasks, int numProcessors, int **tasks, int *solution);
+    Individual(int numTasks, int numProcessors, int **tasks);
     void printIndividual();
     int evaluate();
     int getFitness();
     Individual* crossover(Individual* other);
+    void sortTasks();
     ~Individual();
 };
 

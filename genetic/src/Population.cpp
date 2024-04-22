@@ -1,5 +1,7 @@
 #include <iostream>
 #include <algorithm>
+#include <ctime>
+#include <cstdlib>
 #include "..\include\Population.hpp"
 #include "..\include\Individual.hpp"
 #include "..\..\greedy\include\Greedy.hpp"
@@ -42,11 +44,12 @@ void Population::selectIndividuals(float selectPercent) { // Selection by sortin
 }
 
 Individual* Population::randomCrossover() { // Randomly select two individuals and generate a new individual
+    srand(time(NULL));
     int randomNumber1 = rand() % this->populationSize;
     int randomNumber2;
     while (randomNumber1 == (randomNumber2 = rand() % this->populationSize)); // Choose a different number
     Individual* newIndividual = this->individuals[randomNumber1]->crossover(this->individuals[randomNumber2]);
-
+    
     return newIndividual;
 }
 
