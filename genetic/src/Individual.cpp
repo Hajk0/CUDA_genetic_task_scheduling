@@ -38,6 +38,7 @@ void Individual::printIndividual() {
     for (int i = 0; i < this->numProcessors; i++) {
         std::cout << "Processor " << i << ": " << procOccupation[i] << "\n";
     }
+    std::cout << "Fitness: " << this->fitness << "\n";
 
     delete[] procOccupation;
 }
@@ -73,7 +74,14 @@ Individual* Individual::crossover(Individual* other) {
         newTasks[i][2] = (rand() % 2) ? this->tasks[i][2] : other->tasks[i][2];
     }
 
-    return (new Individual(this->numTasks, this->numProcessors, newTasks));
+    Individual* newIndividual = new Individual(this->numTasks, this->numProcessors, newTasks);
+
+    for (int i = 0; i < this->numTasks; i++) {
+        delete [] newTasks[i];
+    }
+    delete [] newTasks;
+
+    return newIndividual;
 }
 
 void Individual::sortTasks() {
@@ -91,6 +99,25 @@ void Individual::mutate(float mutationProbability) {
     }
 
     this->fitness = this->evaluate(); // Update the fitness after mutation
+}
+
+void Individual::debug() {
+    int* procOccupation = new int[this->numProcessors];
+    for (int i = 0; i < this->numProcessors; i++) {
+        procOccupation[i] = 0;
+    }
+
+    for (int i = 0; i < this->numTasks; i++) {
+        procOccupation[this->tasks[i][2]] += this->tasks[i][1];
+    }
+
+    std::cout << "\t";
+    for (int i = 0; i < this->numProcessors; i++) {
+        std::cout << "Proc " << i << ": " << procOccupation[i] << "; ";
+    }
+    std::cout << "\tFitness: " << this->fitness << "\n";
+
+    delete[] procOccupation;
 }
 
 Individual::~Individual() {

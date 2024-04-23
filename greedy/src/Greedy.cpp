@@ -58,6 +58,7 @@ Individual* Greedy::generateSolution() {
         this->tasks[i][2] = minProc;
         procOccupation[minProc] += this->tasks[i][1];
     }
+    delete[] procOccupation;
     
     return (new Individual(this->numTasks, this->numProcessors, this->tasks));
 }
@@ -76,5 +77,8 @@ void Greedy::shuffleTasks() {
 }
 
 Greedy::~Greedy() {
+    for (int i = 0; i < this->numTasks; i++) {
+        delete[] this->tasks[i];
+    }
     delete[] this->tasks;
 }

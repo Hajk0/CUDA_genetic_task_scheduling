@@ -18,6 +18,8 @@ Population::Population(int populationSize, const std::string &filename) {
         this->individuals[i] = greedy->generateSolution();
         // this->individuals[i]->printIndividual(); // Debug
     }
+
+    delete greedy;
 }
 
 void Population::printPopulation() {
@@ -34,7 +36,7 @@ void Population::selectIndividuals(float selectPercent) { // Selection by sortin
         return a->getFitness() < b->getFitness();
     });
     this->freeSpace = this->populationSize - this->populationSize * selectPercent;
-    this->populationSize = this->populationSize * selectPercent; // Select the best individuals (I don't realocate memory)
+    // XDDDD this->populationSize = this->populationSize * selectPercent; // Select the best individuals (I don't realocate memory)
 
     /*std::cout << "Selected individuals: " << "\n";
     for (int i = 0; i < this->populationSize; i++) {
@@ -56,18 +58,39 @@ Individual* Population::randomCrossover() { // Randomly select two individuals a
 void Population::populationCrossover() {
     while (this->freeSpace > 0) {
         Individual* newIndividual = this->randomCrossover();
-        this->individuals[this->populationSize] = newIndividual;
+        delete this->individuals[this->populationSize - this->freeSpace];
+        this->individuals[this->populationSize - this->freeSpace] = newIndividual;// XDDDD
         this->freeSpace--;
-        this->populationSize++;
+        // XDDDD this->populationSize++;
     }
 }
 
-void Population::populationMutation(float mutationProbability) {
+void Population::populationMutation(float mutationProbability, float geneMutationProbability) {
     srand(time(NULL));
     for (int i = 0; i < this->populationSize; i++) {
         if ((rand() % 100) < mutationProbability * 100) {
-            this->individuals[i]->mutate(mutationProbability);
+            this->individuals[i]->mutate(geneMutationProbability);
         }
+    }
+}
+
+void Population::simulateGenerations(int generations, float selectPercent, float mutationProbability, float geneMutationProbability) {
+    for (int i = 0; i < generations; i++) {
+        std::cout << "Gen " << i << "\n";
+        // this->debug(); // Debug
+        this->selectIndividuals(selectPercent);
+        this->populationCrossover();
+        this->populationMutation(mutationProbability, geneMutationProbability);
+        // std::cout << "Generation " << i << ": " << "\n";
+        // this->printPopulation();
+    }
+}
+
+void Population::debug() {
+    std::cout << "---------------------------------------- Population ----------------------------------------" << "\n";
+    for (int i = 0; i < this->populationSize; i++) {
+        std::cout << "Individual " << i << ": " << "\n";
+        this->individuals[i]->debug();
     }
 }
 

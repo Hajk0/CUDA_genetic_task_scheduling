@@ -19,6 +19,7 @@ public:
     Individual* crossover(Individual* other);
     void sortTasks();
     void mutate(float mutationProbability);
+    void debug();
     ~Individual();
 };
 
