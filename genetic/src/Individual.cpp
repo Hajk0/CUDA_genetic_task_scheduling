@@ -59,7 +59,7 @@ int Individual::evaluate() { // used in the constructor to set the fitness
     int maxOccupation = *std::max_element(procOccupation, procOccupation + this->numProcessors);
 
     this->procOccupation = procOccupation;
-    delete[] procOccupation;
+    // delete[] procOccupation;
 
     return maxOccupation;
 }
@@ -133,4 +133,5 @@ Individual::~Individual() {
         delete[] this->tasks[i];
     }
     delete[] this->tasks;
+    delete[] this->procOccupation;
 }

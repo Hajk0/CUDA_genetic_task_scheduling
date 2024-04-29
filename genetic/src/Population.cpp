@@ -36,13 +36,6 @@ void Population::selectIndividuals(float selectPercent) { // Selection by sortin
         return a->getFitness() < b->getFitness();
     });
     this->freeSpace = this->populationSize - this->populationSize * selectPercent;
-    // XDDDD this->populationSize = this->populationSize * selectPercent; // Select the best individuals (I don't realocate memory)
-
-    /*std::cout << "Selected individuals: " << "\n";
-    for (int i = 0; i < this->populationSize; i++) {
-        std::cout << "Individual " << i << ": " << "\n";
-        this->individuals[i]->printIndividual();
-    }*/
 }
 
 Individual* Population::randomCrossover() { // Randomly select two individuals and generate a new individual
@@ -57,10 +50,13 @@ Individual* Population::randomCrossover() { // Randomly select two individuals a
 void Population::populationCrossover() {
     while (this->freeSpace > 0) {
         Individual* newIndividual = this->randomCrossover();
-        delete this->individuals[this->populationSize - this->freeSpace];
-        this->individuals[this->populationSize - this->freeSpace] = newIndividual;// XDDDD
+        if (newIndividual->getFitness() > this->individuals[this->populationSize - this->freeSpace]->getFitness()) {
+            delete newIndividual;
+        } else {
+            delete this->individuals[this->populationSize - this->freeSpace];
+            this->individuals[this->populationSize - this->freeSpace] = newIndividual;// XDDDD
+        }
         this->freeSpace--;
-        // XDDDD this->populationSize++;
     }
 }
 
@@ -81,6 +77,23 @@ void Population::simulateGenerations(int generations, float selectPercent, float
         this->populationMutation(mutationProbability, geneMutationProbability);
         // std::cout << "Generation " << i << ": " << "\n";
         // this->printPopulation();
+    }
+}
+
+void Population::simulateEvolution(int generationsWithoutImprovement, float selectPercent, float mutationProbability, float geneMutationProbability) {
+    int bestFitness = this->individuals[0]->getFitness();
+    int generations = 0;
+    while (generations < generationsWithoutImprovement) {
+        this->selectIndividuals(selectPercent);
+        this->populationCrossover();
+        this->populationMutation(mutationProbability, geneMutationProbability);
+        if (this->individuals[0]->getFitness() < bestFitness) {
+            bestFitness = this->individuals[0]->getFitness();
+            std::cout << "Best fitness: " << bestFitness << "\n";
+            generations = 0;
+        } else {
+            generations++;
+        }
     }
 }
 

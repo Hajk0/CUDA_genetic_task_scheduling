@@ -19,6 +19,7 @@ public:
     void populationCrossover();
     void populationMutation(float individualMutationProbability, float geneMutationProbability);
     void simulateGenerations(int generations, float selectPercent, float mutationProbability, float geneMutationProbability);
+    void simulateEvolution(int generationsWithoutImprovement, float selectPercent, float mutationProbability, float geneMutationProbability);
     void debug();
     ~Population();
 };
