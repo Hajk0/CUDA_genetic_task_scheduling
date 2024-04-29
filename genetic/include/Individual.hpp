@@ -10,6 +10,7 @@ private:
     int numProcessors;
     int fitness;
     int **tasks;
+    int *procOccupation;
 
 public:
     Individual(int numTasks, int numProcessors, int **tasks);

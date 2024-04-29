@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
+#include <random>
+#include <chrono>
 #include "..\include\Individual.hpp"
 #include "Individual.hpp"
 
@@ -10,6 +12,7 @@ Individual::Individual(int numTasks, int numProcessors, int **tasks) {
     this->numTasks = numTasks;
     this->numProcessors = numProcessors;
     this->tasks = new int*[numTasks];
+    this->procOccupation = new int[numProcessors];
     for (int i = 0; i < numTasks; i++) {
         this->tasks[i] = new int[3];
         this->tasks[i][0] = tasks[i][0];
@@ -54,6 +57,8 @@ int Individual::evaluate() { // used in the constructor to set the fitness
     }
 
     int maxOccupation = *std::max_element(procOccupation, procOccupation + this->numProcessors);
+
+    this->procOccupation = procOccupation;
     delete[] procOccupation;
 
     return maxOccupation;
@@ -91,10 +96,13 @@ void Individual::sortTasks() {
 }
 
 void Individual::mutate(float mutationProbability) {
-    srand(time(NULL));
     for (int i = 0; i < this->numTasks; i++) {
         if ((rand() % 100) < mutationProbability * 100) {
-            this->tasks[i][2] = rand() % this->numProcessors;
+            int randProc = rand() % this->numProcessors;
+            int randTaskLength = this->tasks[i][1];
+            if (this->procOccupation[randProc] + randTaskLength <= this->fitness) {
+                this->tasks[i][2] = randProc;
+            }
         }
     }
 
@@ -121,7 +129,6 @@ void Individual::debug() {
 }
 
 Individual::~Individual() {
-    // delete[] this->solution;
     for (int i = 0; i < this->numTasks; i++) {
         delete[] this->tasks[i];
     }

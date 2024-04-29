@@ -46,7 +46,6 @@ void Population::selectIndividuals(float selectPercent) { // Selection by sortin
 }
 
 Individual* Population::randomCrossover() { // Randomly select two individuals and generate a new individual
-    srand(time(NULL));
     int randomNumber1 = rand() % this->populationSize;
     int randomNumber2;
     while (randomNumber1 == (randomNumber2 = rand() % this->populationSize)); // Choose a different number
@@ -66,7 +65,6 @@ void Population::populationCrossover() {
 }
 
 void Population::populationMutation(float mutationProbability, float geneMutationProbability) {
-    srand(time(NULL));
     for (int i = 0; i < this->populationSize; i++) {
         if ((rand() % 100) < mutationProbability * 100) {
             this->individuals[i]->mutate(geneMutationProbability);
@@ -76,7 +74,7 @@ void Population::populationMutation(float mutationProbability, float geneMutatio
 
 void Population::simulateGenerations(int generations, float selectPercent, float mutationProbability, float geneMutationProbability) {
     for (int i = 0; i < generations; i++) {
-        std::cout << "Gen " << i << "\n";
+        // std::cout << "Gen " << i << "\n";
         // this->debug(); // Debug
         this->selectIndividuals(selectPercent);
         this->populationCrossover();
