@@ -54,6 +54,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+build_cuda/
 develop-eggs/
 dist/
 downloads/
